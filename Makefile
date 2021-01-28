@@ -37,12 +37,12 @@ check-black:
 check-flake8:
 	flake8 .
 
-check-mypy:
-	mypy todos
+check-types:
+	yarn pyright
 
 format: format-isort format-black
 
-lint: check-mypy check-flake8 check-isort check-black
+lint: check-types check-flake8 check-isort check-black
 
 # Testing
 
