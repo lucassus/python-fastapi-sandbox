@@ -15,7 +15,7 @@ router = APIRouter()
     response_model=List[schemas.Project],
     name="Returns the list of all projects",
 )
-async def projects_endpoint(session: Session = Depends(get_session)):
+def projects_endpoint(session: Session = Depends(get_session)):
     return session.query(Project).all()
 
 

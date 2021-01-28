@@ -12,7 +12,7 @@ router = APIRouter()
 
 
 @router.get("", response_model=List[schemas.Task], name="Returns list of tasks")
-async def tasks_endpoint(
+def tasks_endpoint(
     project: Project = Depends(get_project),
 ):
     return project.tasks
@@ -32,7 +32,7 @@ def task_create_endpoint(
 
 
 @router.get("/{id}", response_model=schemas.Task)
-async def task_endpoint(
+def task_endpoint(
     id: int = Path(..., description="The ID of the task", ge=1),
     project: Project = Depends(get_project),
 ):

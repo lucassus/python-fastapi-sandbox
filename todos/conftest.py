@@ -13,7 +13,7 @@ start_mappers()
 
 
 @pytest.fixture
-def db_engine() -> Engine:
+def db_engine():
     engine = create_engine(
         settings.database_url,
         connect_args={"check_same_thread": False},

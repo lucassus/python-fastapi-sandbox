@@ -41,3 +41,4 @@ def test_user_endpoint(session, client):
 def test_user_endpoint_responds_with_404(session, client):
     response = client.get("/users/123")
     assert response.status_code == 404
+    assert response.json() == {"detail": "Unable to find a user with id=123"}
