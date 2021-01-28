@@ -9,17 +9,16 @@ from todos.errors import EntityNotFoundError
 router = APIRouter()
 
 
-@router.post("")
-def user_register_endpoint(
+@router.post("", response_model=schemas.User)
+def user_registration_endpoint(
     data: schemas.RegisterUser,
+    session: Session = Depends(get_session),
 ):
-    pass
-    # user_id = service.register_user(email=data.email, password=data.password)
-    #
-    # return RedirectResponse(
-    #     f"/users/{user_id}",
-    #     status_code=status.HTTP_303_SEE_OTHER,
-    # )
+    user = User(email=data.email, password=data.password)
+    session.add(user)
+    session.commit()
+
+    return user
 
 
 @router.get(
@@ -27,7 +26,7 @@ def user_register_endpoint(
     response_model=schemas.User,
     name="Returns the list of projects",
 )
-async def user_endpoint(id: int, session: Session = Depends(get_session)):
+def user_endpoint(id: int, session: Session = Depends(get_session)):
     user = session.query(User).get(id)
     if user is None:
         raise EntityNotFoundError(detail=f"Unable to find a user with ID={id}")
