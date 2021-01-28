@@ -2,11 +2,8 @@ from datetime import date
 
 import pytest
 
+from todos.errors import MaxIncompleteTasksNumberIsReached, TaskNotFoundError
 from todos.factories import build_project, build_task
-from todos.services.project_management.domain.errors import (
-    MaxIncompleteTasksNumberIsReached,
-    TaskNotFoundError,
-)
 
 
 def test_add_task():

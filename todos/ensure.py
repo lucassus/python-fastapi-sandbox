@@ -1,11 +1,9 @@
 from typing import TYPE_CHECKING
 
-from todos.services.project_management.domain.errors import (
-    MaxIncompleteTasksNumberIsReached,
-)
+from todos.errors import MaxIncompleteTasksNumberIsReached
 
 if TYPE_CHECKING:
-    from todos.services.project_management.domain.entities import Project
+    from todos.entities import Project
 
 
 def project_has_allowed_number_of_incomplete_tasks(project: "Project") -> None:

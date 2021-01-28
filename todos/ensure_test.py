@@ -1,10 +1,8 @@
 import pytest
 
 from todos import ensure
+from todos.errors import MaxIncompleteTasksNumberIsReached
 from todos.factories import build_project, build_task
-from todos.services.project_management.domain.errors import (
-    MaxIncompleteTasksNumberIsReached,
-)
 
 
 class TestEnsureProjectHasAllowedNumberOfIncompleteTasks:

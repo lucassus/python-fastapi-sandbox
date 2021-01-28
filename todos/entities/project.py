@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from todos import ensure
 from todos.entities.task import Task
-from todos.services.project_management.domain.errors import TaskNotFoundError
+from todos.errors import TaskNotFoundError
 
 
 @dataclass
