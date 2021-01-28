@@ -3,7 +3,7 @@ from datetime import date
 import pytest
 
 from todos.common.errors import MaxIncompleteTasksNumberIsReached, TaskNotFoundError
-from todos.factories import build_project, build_task
+from todos.test_utils.factories import build_project, build_task
 
 
 def test_add_task():

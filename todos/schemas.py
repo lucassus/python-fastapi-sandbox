@@ -31,5 +31,4 @@ class User(BaseSchema):
     email: str
     password: str
 
-    # TODO: Bring it back
-    # projects: List[Project]
+    projects: List[Project]

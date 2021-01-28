@@ -8,11 +8,19 @@ def test_user_registration_endpoints(client):
     )
 
     assert response.status_code == 200
+    assert response.json() == {
+        "id": 1,
+        "email": "user@email.com",
+        "password": "password",
+        "projects": [
+            {"id": 1, "name": "My first project"},
+        ],
+    }
 
 
 def test_user_endpoint(session, client):
     # Given
-    user = User(email="test@email.com", password="password")
+    user = User(email="user@email.com", password="password")
     session.add(user)
     session.commit()
 
@@ -24,8 +32,9 @@ def test_user_endpoint(session, client):
     assert response.status_code == 200
     assert response.json() == {
         "id": 1,
-        "email": "test@email.com",
+        "email": "user@email.com",
         "password": "password",
+        "projects": [],
     }
 
 

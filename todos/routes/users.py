@@ -21,14 +21,13 @@ def user_registration_endpoint(
     session.add(user)
 
     project = Project(name="My first project")
-    project.user_id = user.id
+    user.projects = [project]
 
     task = project.add_task(name="Sign up!")
     task.completed_at = now
 
     project.add_task(name="Watch the tutorial")
     project.add_task(name="Start using our awesome app")
-    session.add(project)
 
     session.commit()
 

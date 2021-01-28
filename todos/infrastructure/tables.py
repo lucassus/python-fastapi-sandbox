@@ -42,7 +42,11 @@ def drop_tables(engine):
 
 
 def start_mappers():
-    mapper(User, users_table)
+    mapper(
+        User,
+        users_table,
+        properties={"projects": relationship(Project, order_by=projects_table.c.id)},
+    )
 
     mapper(
         Project,
