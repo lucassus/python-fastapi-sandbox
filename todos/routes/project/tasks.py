@@ -1,14 +1,13 @@
 from datetime import date
 from typing import List
 
-from fastapi import APIRouter, Depends, Path
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
 from todos.domain.entities import Project, Task
 from todos.routes.dependencies import get_current_time, get_session
-from todos.routes.errors import TaskNotFoundError
-from todos.routes.project.dependencies import get_project
+from todos.routes.project.dependencies import get_project, get_task
 
 router = APIRouter(prefix="/tasks")
 
@@ -33,26 +32,18 @@ def task_create_endpoint(
 
 
 @router.get("/{id}", response_model=schemas.Task)
-def task_endpoint(
-    id: int = Path(..., description="The ID of the task", ge=1),
-    session: Session = Depends(get_session),
-):
-    task = session.query(Task).get(id)
-
-    if task is None:
-        raise TaskNotFoundError(id)
-
+def task_endpoint(task=Depends(get_task)):
     return task
 
 
 @router.put("/{id}/complete", response_model=schemas.Task)
 def task_complete_endpoint(
-    id: int = Path(..., description="The ID of the task to complete", ge=1),
     project: Project = Depends(get_project),
+    task: Task = Depends(get_task),
     session: Session = Depends(get_session),
     now: date = Depends(get_current_time),
 ):
-    task = project.complete_task(id, now=now)
+    task = project.complete_task(task.id, now=now)
     session.commit()
 
     return task
@@ -60,11 +51,11 @@ def task_complete_endpoint(
 
 @router.put("/{id}/incomplete", response_model=schemas.Task)
 def task_incomplete_endpoint(
-    id: int = Path(..., description="The ID of the task to incomplete", ge=1),
     project: Project = Depends(get_project),
+    task: Task = Depends(get_task),
     session: Session = Depends(get_session),
 ):
-    task = project.incomplete_task(id)
+    task = project.incomplete_task(task.id)
     session.commit()
 
     return task
