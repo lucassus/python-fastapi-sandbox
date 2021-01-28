@@ -44,6 +44,7 @@ class Project:
             if task.id == id:
                 return task
 
+        # TODO: Remove this since it depends on http errors
         raise TaskNotFoundError(id)
 
     def complete_tasks(self, now: date):
