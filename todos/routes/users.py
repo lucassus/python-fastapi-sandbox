@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from todos import schemas
 from todos.common.errors import UserNotFoundError
 from todos.dependencies import get_current_time, get_session
-from todos.entities import Project, User
+from todos.domain.entities import Project, User
 
 router = APIRouter()
 

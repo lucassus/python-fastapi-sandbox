@@ -1,4 +1,4 @@
-from todos.entities import User
+from todos.domain.entities import User
 
 
 def test_user_registration_endpoints(client):

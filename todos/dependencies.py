@@ -4,7 +4,7 @@ from fastapi import Depends, Path
 from sqlalchemy.orm import Session
 
 from todos.common.errors import ProjectNotFoundError
-from todos.entities import Project
+from todos.domain.entities import Project
 from todos.infrastructure.session import session_factory
 
 

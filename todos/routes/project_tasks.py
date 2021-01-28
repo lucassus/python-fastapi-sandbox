@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from todos import schemas
 from todos.dependencies import get_current_time, get_project, get_session
-from todos.entities import Project
+from todos.domain.entities import Project
 
 router = APIRouter()
 

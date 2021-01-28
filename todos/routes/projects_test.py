@@ -1,4 +1,4 @@
-from todos.entities import Project
+from todos.domain.entities import Project
 
 
 def test_projects_endpoint_returns_list_of_projects(session, client):

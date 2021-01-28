@@ -2,9 +2,9 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import List, Optional
 
-from todos import ensure
 from todos.common.errors import TaskNotFoundError
-from todos.entities.task import Task
+from todos.domain import ensure
+from todos.domain.entities.task import Task
 
 
 @dataclass

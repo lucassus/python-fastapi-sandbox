@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from todos.entities import Project
+from todos.domain.entities import Project
 
 
 @dataclass
