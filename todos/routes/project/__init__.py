@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 
 from todos import schemas
-from todos.dependencies import get_project
 from todos.domain.entities import Project
+from todos.routes.dependencies import get_project
 from todos.routes.project import tasks
 
 router = APIRouter(

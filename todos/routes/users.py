@@ -4,10 +4,10 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
-from todos.common.errors import UserNotFoundError
-from todos.dependencies import get_current_time, get_session
 from todos.domain.entities import User
 from todos.domain.services import build_user_with_example_project
+from todos.routes.dependencies import get_current_time, get_session
+from todos.routes.errors import UserNotFoundError
 
 router = APIRouter(prefix="/users")
 

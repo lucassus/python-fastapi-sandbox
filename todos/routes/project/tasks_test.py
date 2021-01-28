@@ -1,7 +1,7 @@
 from datetime import date, datetime
 
-from todos.dependencies import get_current_time
 from todos.domain.entities import Project
+from todos.routes.dependencies import get_current_time
 
 
 def test_tasks_endpoint_creates_task(session, client):

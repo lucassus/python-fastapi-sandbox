@@ -5,9 +5,9 @@ from fastapi import APIRouter, Depends, Path
 from sqlalchemy.orm import Session
 
 from todos import schemas
-from todos.common.errors import TaskNotFoundError
-from todos.dependencies import get_current_time, get_project, get_session
 from todos.domain.entities import Project, Task
+from todos.routes.dependencies import get_current_time, get_project, get_session
+from todos.routes.errors import TaskNotFoundError
 
 router = APIRouter(prefix="/tasks")
 

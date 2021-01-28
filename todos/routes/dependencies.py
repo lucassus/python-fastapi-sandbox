@@ -3,9 +3,9 @@ from datetime import date, datetime
 from fastapi import Depends, Path
 from sqlalchemy.orm import Session
 
-from todos.common.errors import ProjectNotFoundError
 from todos.domain.entities import Project
 from todos.infrastructure.session import session_factory
+from todos.routes.errors import ProjectNotFoundError
 
 
 def get_current_time() -> date:

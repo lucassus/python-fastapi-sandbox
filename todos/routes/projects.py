@@ -4,9 +4,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
-from todos.dependencies import get_session
 from todos.domain.entities import Project
 from todos.routes import project
+from todos.routes.dependencies import get_session
 
 router = APIRouter(prefix="/projects")
 
