@@ -3,7 +3,7 @@ from datetime import date, datetime
 import pytest
 
 from todos.services.project_management.entrypoints.dependencies import get_current_time
-from todos.services.project_management.test_utils.factories import build_project
+from todos.factories import build_project
 
 
 @pytest.mark.integration

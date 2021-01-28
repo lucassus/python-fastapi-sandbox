@@ -3,7 +3,7 @@ from datetime import date
 from typing import List, Optional
 
 from todos.services.project_management.domain import ensure
-from todos.services.project_management.domain.entities.task import Task
+from todos.entities.task import Task
 from todos.services.project_management.domain.errors import TaskNotFoundError
 
 

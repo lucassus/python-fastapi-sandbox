@@ -3,7 +3,7 @@ from datetime import date
 import pytest
 
 from todos.services.project_management.domain.service import Service
-from todos.services.project_management.test_utils.factories import (
+from todos.factories import (
     build_project,
     build_task,
 )

@@ -1,6 +1,6 @@
 from datetime import date
 
-from todos.services.project_management.domain.entities import Task
+from todos.entities import Task
 
 
 def test_task_is_completed_returns_false():

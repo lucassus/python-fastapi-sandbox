@@ -1,5 +1,5 @@
 from todos.common.message_bus import MessageBus
-from todos.services.accounts.domain.entities import User
+from todos.entities.user import User
 from todos.services.accounts.domain.ports import AbstractUnitOfWork
 
 

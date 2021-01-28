@@ -1,5 +1,8 @@
+from sqlalchemy.orm import mapper, relationship
 from sqlalchemy.sql.schema import Column, ForeignKey, MetaData, Table
 from sqlalchemy.sql.sqltypes import Date, Integer, String
+
+from todos.entities import User, Project, Task
 
 metadata = MetaData()
 
@@ -36,3 +39,17 @@ def create_tables(engine):
 
 def drop_tables(engine):
     metadata.drop_all(bind=engine)
+
+
+def start_mappers():
+    mapper(User, users_table)
+
+    mapper(
+        Project,
+        projects_table,
+        properties={
+            "tasks": relationship(Task, order_by=tasks_table.c.id),
+        },
+    )
+
+    mapper(Task, tasks_table)

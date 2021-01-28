@@ -1,4 +1,4 @@
-from todos.services.project_management.test_utils.factories import build_project
+from todos.factories import build_project
 from todos.services.project_management.test_utils.fake_repository import FakeRepository
 
 

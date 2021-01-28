@@ -1,6 +1,6 @@
 import abc
 
-from todos.services.accounts.domain.entities import User
+from todos.entities.user import User
 
 
 class AbstractRepository(abc.ABC):
