@@ -49,6 +49,7 @@ def test_task_complete_endpoint(session, client):
     assert task.completed_at == now.date()
 
 
+# TODO: Is it worth to test it like that?
 def test_task_complete_endpoint_returns_404(client):
     response = client.put("/tasks/123/complete")
     assert response.status_code == 404

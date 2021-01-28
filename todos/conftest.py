@@ -9,6 +9,8 @@ from todos.dependencies import get_session
 from todos.infrastructure.tables import create_tables, drop_tables, start_mappers
 from todos.routes import api_router
 
+start_mappers()
+
 
 @pytest.fixture
 def db_engine() -> Engine:
@@ -48,6 +50,3 @@ def client(session):
     app.dependency_overrides[get_session] = lambda: session
 
     return TestClient(app=app)
-
-
-start_mappers()
