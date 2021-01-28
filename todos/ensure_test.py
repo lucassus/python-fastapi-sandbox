@@ -1,7 +1,7 @@
 import pytest
 
 from todos import ensure
-from todos.errors import MaxIncompleteTasksNumberIsReached
+from todos.common.errors import MaxIncompleteTasksNumberIsReached
 from todos.factories import build_project, build_task
 
 

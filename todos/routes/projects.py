@@ -4,9 +4,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
+from todos.common.errors import EntityNotFoundError
 from todos.dependencies import get_session
 from todos.entities import Project
-from todos.errors import EntityNotFoundError
 
 router = APIRouter()
 

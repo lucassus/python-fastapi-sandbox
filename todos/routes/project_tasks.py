@@ -2,16 +2,28 @@ from datetime import date
 from typing import List
 
 from fastapi import APIRouter, Depends, Path
+from sqlalchemy.orm import Session
 
 from todos import schemas
-from todos.dependencies import get_current_time
+from todos.common.errors import ProjectNotFoundError
+from todos.dependencies import get_current_time, get_session
+from todos.entities import Project
 
 router = APIRouter()
 
 
-@router.get("", response_model=List[schemas.Task], name="Returns list of tasks_table")
-async def tasks_endpoint(project_id: int):
-    pass
+@router.get("", response_model=List[schemas.Task], name="Returns list of tasks")
+async def tasks_endpoint(
+    project_id: int,
+    session: Session = Depends(get_session),
+):
+    # TODO: Bring back types
+    project = session.query(Project).get(project_id)
+
+    if project is None:
+        raise ProjectNotFoundError(id=project_id)
+
+    return project.task
 
 
 @router.post("")
@@ -24,21 +36,16 @@ def task_create_endpoint(
 
 @router.get("/{id}", response_model=schemas.Task)
 async def task_endpoint(
-    project_id: int, id: int = Path(..., description="The ID of the task", ge=1)
+    project_id: int,
+    id: int = Path(..., description="The ID of the task", ge=1),
+    session: Session = Depends(get_session),
 ):
-    pass
-    # query = select([tasks_table]).where(
-    #     and_(
-    #         tasks_table.c.project_id == project_id,
-    #         tasks_table.c.id == id,
-    #     )
-    # )
-    # row = await database.fetch_one(query=query)
-    #
-    # if row is None:
-    #     raise EntityNotFoundError(detail=f"Unable to find a task with ID={id}")
-    #
-    # return row
+    project = session.query(Project).get(project_id)
+
+    if project is None:
+        raise ProjectNotFoundError(id=id)
+
+    return project.get_task(id)
 
 
 @router.put("/{id}/complete")
