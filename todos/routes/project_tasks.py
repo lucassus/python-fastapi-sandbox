@@ -5,8 +5,9 @@ from fastapi import APIRouter, Depends, Path
 from sqlalchemy.orm import Session
 
 from todos import schemas
+from todos.common.errors import TaskNotFoundError
 from todos.dependencies import get_current_time, get_project, get_session
-from todos.domain.entities import Project
+from todos.domain.entities import Project, Task
 
 router = APIRouter()
 
@@ -21,7 +22,7 @@ def tasks_endpoint(
 @router.post("", response_model=schemas.Task)
 def task_create_endpoint(
     data: schemas.CreateTask,
-    # TODO: Somehow autoload it
+    # TODO: Somehow autoload it?
     project: Project = Depends(get_project),
     session: Session = Depends(get_session),
 ):
@@ -34,9 +35,14 @@ def task_create_endpoint(
 @router.get("/{id}", response_model=schemas.Task)
 def task_endpoint(
     id: int = Path(..., description="The ID of the task", ge=1),
-    project: Project = Depends(get_project),
+    session: Session = Depends(get_session),
 ):
-    return project.get_task(id)
+    task = session.query(Task).get(id)
+
+    if task is None:
+        raise TaskNotFoundError(id)
+
+    return task
 
 
 @router.put("/{id}/complete", response_model=schemas.Task)

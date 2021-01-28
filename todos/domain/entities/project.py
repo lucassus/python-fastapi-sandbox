@@ -2,7 +2,6 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import List, Optional
 
-from todos.common.errors import TaskNotFoundError
 from todos.domain import ensure
 from todos.domain.entities.task import Task
 
@@ -26,27 +25,22 @@ class Project:
         return task
 
     def complete_task(self, id: int, now: date) -> Task:
-        task = self.get_task(id)
+        task = self._get_task(id)
         task.complete(now)
 
         return task
 
     def incomplete_task(self, id: int) -> Task:
-        task = self.get_task(id)
+        task = self._get_task(id)
         task.incomplete()
 
         ensure.project_has_allowed_number_of_incomplete_tasks(self)
 
         return task
 
-    def get_task(self, id: int) -> Task:
-        for task in self.tasks:
-            if task.id == id:
-                return task
-
-        # TODO: Remove this since it depends on http errors
-        raise TaskNotFoundError(id)
-
     def complete_tasks(self, now: date):
         for task in self.tasks:
             task.complete(now)
+
+    def _get_task(self, id: int) -> Task:
+        return next((task for task in self.tasks if task.id == id))
