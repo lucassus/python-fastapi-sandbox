@@ -46,9 +46,7 @@ mypy-extensions==0.4.3
     #   black
     #   mypy
 mypy==0.790
-    # via
-    #   -r requirements.in
-    #   sqlalchemy-stubs
+    # via sqlalchemy-stubs
 packaging==20.8
     # via pytest
 pathspec==0.8.1
