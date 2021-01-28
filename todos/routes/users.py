@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from todos import schemas
 from todos.common.errors import UserNotFoundError
 from todos.dependencies import get_current_time, get_session
-from todos.domain.entities import Project, User
+from todos.domain.entities import User
+from todos.domain.services import build_user_with_example_project
 
 router = APIRouter()
 
@@ -17,18 +18,12 @@ def user_registration_endpoint(
     session: Session = Depends(get_session),
     now: date = Depends(get_current_time),
 ):
-    user = User(email=data.email, password=data.password)
+    user = build_user_with_example_project(
+        email=data.email,
+        password=data.password,
+        now=now,
+    )
     session.add(user)
-
-    project = Project(name="My first project")
-    user.projects = [project]
-
-    task = project.add_task(name="Sign up!")
-    task.completed_at = now
-
-    project.add_task(name="Watch the tutorial")
-    project.add_task(name="Start using our awesome app")
-
     session.commit()
 
     return user
