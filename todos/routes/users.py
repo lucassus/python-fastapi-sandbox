@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
-from todos.common.errors import EntityNotFoundError
+from todos.common.errors import EntityNotFoundError, UserNotFoundError
 from todos.dependencies import get_current_time, get_session
 from todos.entities import Project, User
 
@@ -41,7 +41,8 @@ def user_registration_endpoint(
 )
 def user_endpoint(id: int, session: Session = Depends(get_session)):
     user = session.query(User).get(id)
+
     if user is None:
-        raise EntityNotFoundError(detail=f"Unable to find a user with ID={id}")
+        raise UserNotFoundError(id)
 
     return user

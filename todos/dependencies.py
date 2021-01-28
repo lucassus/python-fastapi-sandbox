@@ -29,6 +29,6 @@ def get_project(
     project = session.query(Project).get(project_id)
 
     if project is None:
-        raise ProjectNotFoundError(id=project_id)
+        raise ProjectNotFoundError(project_id)
 
     return project
