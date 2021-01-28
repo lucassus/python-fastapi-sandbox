@@ -1,6 +1,6 @@
 import pytest
 from fastapi import FastAPI
-from sqlalchemy.engine import Engine, create_engine
+from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import Session
 from starlette.testclient import TestClient
 

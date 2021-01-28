@@ -18,7 +18,7 @@ deps: deps-pre deps-compile deps-install
 install: deps-pre deps-install
 
 server-dev:
-	uvicorn todos.main:app --reload
+	uvicorn todos.app:app --reload
 
 # Linting
 
