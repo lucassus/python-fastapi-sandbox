@@ -22,6 +22,7 @@ async def tasks_endpoint(
     query = select([tasks_table]).where(tasks_table.c.project_id == project_id)
     return await database.fetch_all(query=query)
 
+
 @router.post("")
 def task_create_endpoint(
     project_id: int,

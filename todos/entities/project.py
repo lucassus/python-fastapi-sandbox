@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import List, Optional
 
-from todos.services.project_management.domain import ensure
+from todos import ensure
 from todos.entities.task import Task
 from todos.services.project_management.domain.errors import TaskNotFoundError
 

@@ -2,8 +2,8 @@ from datetime import date, datetime
 
 import pytest
 
-from todos.services.project_management.entrypoints.dependencies import get_current_time
 from todos.factories import build_project
+from todos.services.project_management.entrypoints.dependencies import get_current_time
 
 
 @pytest.mark.integration
@@ -71,6 +71,7 @@ def test_task_incomplete_endpoint(session, client):
 def test_task_incomplete_endpoint_returns_404(client):
     response = client.put(f"/tasks/{123}/incomplete")
     assert response.status_code == 404
+
 
 @pytest.mark.asyncio
 async def test_tasks_endpoint(database, client):

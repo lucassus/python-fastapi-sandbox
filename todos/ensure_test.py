@@ -1,12 +1,9 @@
 import pytest
 
-from todos.services.project_management.domain import ensure
+from todos import ensure
+from todos.factories import build_project, build_task
 from todos.services.project_management.domain.errors import (
     MaxIncompleteTasksNumberIsReached,
-)
-from todos.factories import (
-    build_project,
-    build_task,
 )
 
 

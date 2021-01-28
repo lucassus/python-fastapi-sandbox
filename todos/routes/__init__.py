@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from todos.routes import users, health, projects, project_tasks
+from todos.routes import health, project_tasks, projects, users
 
 api_router = APIRouter()
 
