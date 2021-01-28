@@ -1,19 +1,25 @@
 from todos.entities import Project
 
-# def test_tasks_endpoint_creates_task(session, client):
-#     # Given
-#     project = build_project(name="Test project")
-#     session.add(project)
-#     session.commit()
-#
-#     # When
-#     response = client.post(
-#         f"/projects/{project.id}/tasks",
-#         json={"name": "Some task"},
-#     )
-#
-#     # Then
-#     assert response.status_code == 303
+
+def test_tasks_endpoint_creates_task(session, client):
+    # Given
+    project = Project(name="Test project")
+    session.add(project)
+    session.commit()
+
+    # When
+    response = client.post(
+        f"/projects/{project.id}/tasks",
+        json={"name": "Some task"},
+    )
+
+    # Then
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": 1,
+        "name": "Some task",
+        "completedAt": None,
+    }
 
 
 # def test_task_complete_endpoint(session, client):

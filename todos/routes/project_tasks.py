@@ -26,12 +26,23 @@ async def tasks_endpoint(
     return project.task
 
 
-@router.post("")
+@router.post("", response_model=schemas.Task)
 def task_create_endpoint(
     project_id: int,
     data: schemas.CreateTask,
+    session: Session = Depends(get_session),
 ):
-    pass
+    # TODO: Create a dependency for project
+    project: Project = session.query(Project).get(project_id)
+
+    # TODO: Dry up 404 errors handling
+    if project is None:
+        raise ProjectNotFoundError(id=project_id)
+
+    task = project.add_task(name=data.name)
+    session.commit()
+
+    return task
 
 
 @router.get("/{id}", response_model=schemas.Task)
