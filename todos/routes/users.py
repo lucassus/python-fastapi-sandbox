@@ -1,10 +1,12 @@
+from datetime import date
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
 from todos.common.errors import EntityNotFoundError
-from todos.dependencies import get_session
-from todos.entities import User
+from todos.dependencies import get_current_time, get_session
+from todos.entities import Project, User
 
 router = APIRouter()
 
@@ -13,9 +15,21 @@ router = APIRouter()
 def user_registration_endpoint(
     data: schemas.RegisterUser,
     session: Session = Depends(get_session),
+    now: date = Depends(get_current_time),
 ):
     user = User(email=data.email, password=data.password)
     session.add(user)
+
+    project = Project(name="My first project")
+    project.user_id = user.id
+
+    task = project.add_task(name="Sign up!")
+    task.completed_at = now
+
+    project.add_task(name="Watch the tutorial")
+    project.add_task(name="Start using our awesome app")
+    session.add(project)
+
     session.commit()
 
     return user
