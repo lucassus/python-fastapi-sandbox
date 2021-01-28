@@ -22,7 +22,3 @@ class ProjectNotFoundError(EntityNotFoundError):
 class TaskNotFoundError(EntityNotFoundError):
     def __init__(self, id: int):
         super().__init__(detail=f"Unable to find a task with id={id}")
-
-
-class MaxIncompleteTasksNumberIsReached(Exception):
-    pass

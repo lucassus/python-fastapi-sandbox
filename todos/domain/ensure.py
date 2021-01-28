@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from todos.common.errors import MaxIncompleteTasksNumberIsReached
+from todos.domain.errors import MaxIncompleteTasksNumberIsReached
 
 if TYPE_CHECKING:
     from todos.domain.entities import Project
