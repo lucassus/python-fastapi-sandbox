@@ -11,7 +11,7 @@ deps-compile:
 	pip-compile requirements.in --output-file=requirements.txt
 
 deps-install:
-	pip-sync
+	pip-sync && yarn install
 
 deps: deps-pre deps-compile deps-install
 
