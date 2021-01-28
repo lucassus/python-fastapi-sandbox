@@ -1,0 +1,2 @@
+class MaxIncompleteTasksNumberIsReached(Exception):
+    pass
