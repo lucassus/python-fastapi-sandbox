@@ -1,6 +1,10 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
 from todos import schemas
+from todos.dependencies import get_session
+from todos.entities import User
+from todos.errors import EntityNotFoundError
 
 router = APIRouter()
 
@@ -23,15 +27,9 @@ def user_register_endpoint(
     response_model=schemas.User,
     name="Returns the list of projects",
 )
-async def user_endpoint(id: int):
-    pass
-    # query = select([users_table]).where(users_table.c.id == id)
-    # user = await database.fetch_one(query=query)
-    #
-    # if user is None:
-    #     raise EntityNotFoundError(detail=f"Unable to find a user with ID={id}")
-    #
-    # query = select([projects_table]).where(projects_table.c.user_id == id)
-    # projects = await database.fetch_all(query=query)
-    #
-    # return dict(user, projects=[dict(project) for project in projects])
+async def user_endpoint(id: int, session: Session = Depends(get_session)):
+    user = session.query(User).get(id)
+    if user is None:
+        raise EntityNotFoundError(detail=f"Unable to find a user with ID={id}")
+
+    return user

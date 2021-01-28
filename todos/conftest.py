@@ -1,8 +1,10 @@
 import pytest
 from fastapi import FastAPI
+from sqlalchemy.orm import Session
 from starlette.testclient import TestClient
 
-from todos.infrastructure.session import engine
+from todos.dependencies import get_session
+from todos.infrastructure.session import engine, session_factory
 from todos.infrastructure.tables import create_tables, drop_tables, start_mappers
 from todos.routes import api_router
 
@@ -15,9 +17,16 @@ def create_test_database():
 
 
 @pytest.fixture
-def client():
+def session() -> Session:
+    return session_factory()
+
+
+@pytest.fixture
+def client(session):
     app = FastAPI()
     app.include_router(api_router)
+
+    app.dependency_overrides[get_session] = lambda: session
 
     return TestClient(app=app)
 

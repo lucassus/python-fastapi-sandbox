@@ -2,8 +2,9 @@ from datetime import date, datetime
 
 import pytest
 
+from todos.dependencies import get_current_time
 from todos.factories import build_project
-from todos.services.project_management.entrypoints.dependencies import get_current_time
+from todos.infrastructure.tables import projects_table, tasks_table
 
 
 @pytest.mark.integration

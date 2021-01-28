@@ -1,21 +1,17 @@
 import pytest
 
+from todos.entities import Project
 from todos.infrastructure.tables import projects_table
 
 
-@pytest.mark.asyncio
-async def test_projects_endpoint_returns_list_of_projects(database, client):
+def test_projects_endpoint_returns_list_of_projects(session, client):
     # Given
-    await database.execute_many(
-        query=projects_table.insert(),
-        values=[
-            {"name": "Project One"},
-            {"name": "Project Two"},
-        ],
-    )
+    session.add(Project(name="Project One"))
+    session.add(Project(name="Project Two"))
+    session.commit()
 
     # When
-    response = await client.get("/projects")
+    response = client.get("/projects")
 
     # Then
     assert response.status_code == 200
