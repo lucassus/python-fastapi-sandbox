@@ -26,7 +26,6 @@ def test_user_endpoint(session, client):
 
     # When
     response = client.get(f"/users/{user.id}")
-    print(response)
 
     # Then
     assert response.status_code == 200
