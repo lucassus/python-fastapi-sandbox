@@ -9,7 +9,7 @@ from todos.dependencies import get_current_time, get_session
 from todos.domain.entities import User
 from todos.domain.services import build_user_with_example_project
 
-router = APIRouter()
+router = APIRouter(prefix="/users")
 
 
 @router.post("", response_model=schemas.User)

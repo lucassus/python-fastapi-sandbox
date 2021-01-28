@@ -9,7 +9,10 @@ from todos.common.errors import TaskNotFoundError
 from todos.dependencies import get_current_time, get_project, get_session
 from todos.domain.entities import Project, Task
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/projects/{project_id}/tasks",
+    dependencies=[Depends(get_project)],
+)
 
 
 @router.get("", response_model=List[schemas.Task], name="Returns list of tasks")
@@ -22,7 +25,6 @@ def tasks_endpoint(
 @router.post("", response_model=schemas.Task)
 def task_create_endpoint(
     data: schemas.CreateTask,
-    # TODO: Somehow autoload it?
     project: Project = Depends(get_project),
     session: Session = Depends(get_session),
 ):

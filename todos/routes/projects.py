@@ -7,7 +7,7 @@ from todos import schemas
 from todos.dependencies import get_project, get_session
 from todos.domain.entities import Project
 
-router = APIRouter()
+router = APIRouter(prefix="/projects")
 
 
 @router.get(
