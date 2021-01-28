@@ -1,3 +1,6 @@
+from datetime import date, datetime
+
+from todos.dependencies import get_current_time
 from todos.entities import Project
 
 
@@ -22,85 +25,84 @@ def test_tasks_endpoint_creates_task(session, client):
     }
 
 
-# def test_task_complete_endpoint(session, client):
-#     # Given
-#     project = build_project(name="Test project")
-#     task = project.add_task(name="Test")
-#     session.add(project)
-#     session.commit()
-#
-#     now = datetime(2012, 1, 18, 9, 30)
-#     client.app.dependency_overrides[get_current_time] = lambda: now
-#
-#     # When
-#     response = client.put(f"/projects/{project.id}/tasks/{task.id}/complete")
-#
-#     # Then
-#     assert response.status_code == 303
-#
-#     # TODO: Figure out how to fix this assertion
-#     # assert task.completed_at == now.date()
+def test_task_complete_endpoint(session, client):
+    # Given
+    project = Project(name="Test project")
+    task = project.add_task(name="Test")
+    session.add(project)
+    session.commit()
+
+    now = datetime(2012, 1, 18, 9, 30)
+    client.app.dependency_overrides[get_current_time] = lambda: now
+
+    # When
+    response = client.put(f"/projects/{project.id}/tasks/{task.id}/complete")
+
+    # Then
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": task.id,
+        "name": task.name,
+        "completedAt": "2012-01-18",
+    }
+
+    assert task.completed_at == now.date()
 
 
-# def test_task_complete_endpoint_returns_404(client):
-#     response = client.put(f"/tasks/{123}/complete")
-#     assert response.status_code == 404
+def test_task_complete_endpoint_returns_404(client):
+    response = client.put("/tasks/123/complete")
+    assert response.status_code == 404
 
 
-# def test_task_incomplete_endpoint(session, client):
-#     # Given
-#     project = build_project(name="Test project")
-#     project.add_task(name="Test")
-#
-#     task = project.add_task(name="Test")
-#     task.completed_at = date(2021, 1, 12)
-#
-#     session.add(project)
-#     session.commit()
-#
-#     # When
-#     response = client.put(f"/projects/{project.id}/tasks/{task.id}/incomplete")
-#
-#     # Then
-#     assert response.status_code == 303
+def test_task_incomplete_endpoint(session, client):
+    # Given
+    project = Project(name="Test project")
+    project.add_task(name="Test")
+
+    task = project.add_task(name="Test")
+    task.completed_at = date(2021, 1, 12)
+
+    session.add(project)
+    session.commit()
+
+    # When
+    response = client.put(f"/projects/{project.id}/tasks/{task.id}/incomplete")
+
+    # Then
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": task.id,
+        "name": task.name,
+        "completedAt": None,
+    }
 
 
-# def test_task_incomplete_endpoint_returns_404(client):
-#     response = client.put(f"/tasks/{123}/incomplete")
-#     assert response.status_code == 404
+def test_task_incomplete_endpoint_returns_404(client):
+    response = client.put("/tasks/123/incomplete")
+    assert response.status_code == 404
 
 
-# async def test_tasks_endpoint(database, client):
-#     # Given
-#     await database.execute(
-#         query=projects_table.insert(),
-#         values={"id": 1, "name": "Project One"},
-#     )
-#
-#     await database.execute_many(
-#         query=tasks_table.insert(),
-#         values=[
-#             {"id": 1, "project_id": 1, "name": "Task One"},
-#             {
-#                 "id": 2,
-#                 "project_id": 1,
-#                 "name": "Task Two",
-#                 "completed_at": date(2021, 1, 6),
-#             },
-#             {"id": 3, "project_id": 1, "name": "Task Three"},
-#         ],
-#     )
-#
-#     # When
-#     response = await client.get("/projects/1/tasks")
-#
-#     # Then
-#     assert response.status_code == 200
-#     assert response.json() == [
-#         {"id": 1, "name": "Task One", "completedAt": None},
-#         {"id": 2, "name": "Task Two", "completedAt": "2021-01-06"},
-#         {"id": 3, "name": "Task Three", "completedAt": None},
-#     ]
+def test_tasks_endpoint(session, client):
+    # Given
+    project = Project(name="Project One")
+    session.add(project)
+
+    project.add_task(name="Task One")
+    task = project.add_task(name="Task Two")
+    task.completed_at = date(2021, 1, 6)
+    project.add_task(name="Task Three")
+    session.commit()
+
+    # When
+    response = client.get(f"/projects/{project.id}/tasks")
+
+    # Then
+    assert response.status_code == 200
+    assert response.json() == [
+        {"id": 1, "name": "Task One", "completedAt": None},
+        {"id": 2, "name": "Task Two", "completedAt": "2021-01-06"},
+        {"id": 3, "name": "Task Three", "completedAt": None},
+    ]
 
 
 def test_task_endpoint_returns_task(session, client):

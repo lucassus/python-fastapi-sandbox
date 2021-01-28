@@ -23,7 +23,7 @@ async def tasks_endpoint(
     if project is None:
         raise ProjectNotFoundError(id=project_id)
 
-    return project.task
+    return project.tasks
 
 
 @router.post("", response_model=schemas.Task)
@@ -54,35 +54,41 @@ async def task_endpoint(
     project = session.query(Project).get(project_id)
 
     if project is None:
-        raise ProjectNotFoundError(id=id)
+        raise ProjectNotFoundError(id=project_id)
 
     return project.get_task(id)
 
 
-@router.put("/{id}/complete")
+@router.put("/{id}/complete", response_model=schemas.Task)
 def task_complete_endpoint(
     project_id: int,
     id: int = Path(..., description="The ID of the task to complete", ge=1),
+    session: Session = Depends(get_session),
     now: date = Depends(get_current_time),
 ):
-    pass
-    # service.complete_task(id, project_id=project_id, now=now)
-    #
-    # return RedirectResponse(
-    #     f"/projects/{project_id}/tasks/{id}",
-    #     status_code=status.HTTP_303_SEE_OTHER,
-    # )
+    project: Project = session.query(Project).get(project_id)
+
+    if project is None:
+        raise ProjectNotFoundError(id=id)
+
+    task = project.complete_task(id, now=now)
+    session.commit()
+
+    return task
 
 
-@router.put("/{id}/incomplete")
+@router.put("/{id}/incomplete", response_model=schemas.Task)
 def task_incomplete_endpoint(
     project_id: int,
     id: int = Path(..., description="The ID of the task to incomplete", ge=1),
+    session: Session = Depends(get_session),
 ):
-    pass
-    # service.incomplete_task(id, project_id=project_id)
-    #
-    # return RedirectResponse(
-    #     f"/projects/{project_id}/tasks/{id}",
-    #     status_code=status.HTTP_303_SEE_OTHER,
-    # )
+    project: Project = session.query(Project).get(project_id)
+
+    if project is None:
+        raise ProjectNotFoundError(id=id)
+
+    task = project.incomplete_task(id)
+    session.commit()
+
+    return task
