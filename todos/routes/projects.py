@@ -5,9 +5,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import select
 
 from todos.infrastructure.tables import projects_table
-from todos.query_service import schemas
+from todos import schemas
 from todos.query_service.dependencies import get_database
-from todos.query_service.errors import EntityNotFoundError
+from todos.errors import EntityNotFoundError
 
 router = APIRouter()
 

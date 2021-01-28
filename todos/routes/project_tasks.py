@@ -1,4 +1,5 @@
 from datetime import date
+from typing import List
 
 from fastapi import APIRouter, Depends, Path, status
 from starlette.responses import RedirectResponse
@@ -13,6 +14,14 @@ from todos.services.project_management.entrypoints.dependencies import (
 router = APIRouter()
 
 
+@router.get("", response_model=List[schemas.Task], name="Returns list of tasks_table")
+async def tasks_endpoint(
+    project_id: int,
+    database: Database = Depends(get_database),
+):
+    query = select([tasks_table]).where(tasks_table.c.project_id == project_id)
+    return await database.fetch_all(query=query)
+
 @router.post("")
 def task_create_endpoint(
     project_id: int,
@@ -25,6 +34,26 @@ def task_create_endpoint(
         f"/projects/{project_id}/tasks/{task_id}",
         status_code=status.HTTP_303_SEE_OTHER,
     )
+
+
+@router.get("/{id}", response_model=schemas.Task)
+async def task_endpoint(
+    project_id: int,
+    id: int = Path(..., description="The ID of the task", ge=1),
+    database: Database = Depends(get_database),
+):
+    query = select([tasks_table]).where(
+        and_(
+            tasks_table.c.project_id == project_id,
+            tasks_table.c.id == id,
+        )
+    )
+    row = await database.fetch_one(query=query)
+
+    if row is None:
+        raise EntityNotFoundError(detail=f"Unable to find a task with ID={id}")
+
+    return row
 
 
 @router.put("/{id}/complete")
