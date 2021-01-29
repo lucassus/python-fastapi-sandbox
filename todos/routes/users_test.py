@@ -1,17 +1,20 @@
 from todos.domain.entities import User
+from todos.infrastructure.tables import users_table
 
 
-def test_user_registration_endpoints(client):
+def test_user_registration_endpoints(session, client):
     response = client.post(
         "/users",
         json={"email": "user@email.com", "password": "password"},
     )
 
     assert response.status_code == 200
+
+    user: User = session.query(User).order_by(users_table.c.id.desc()).first()
     assert response.json() == {
-        "id": 1,
-        "email": "user@email.com",
-        "password": "password",
+        "id": user.id,
+        "email": user.email,
+        "password": user.password,
         "projects": [
             {"id": 1, "name": "My first project"},
         ],
