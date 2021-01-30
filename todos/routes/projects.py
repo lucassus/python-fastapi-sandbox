@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
-from todos.domain.entities import Project
+from todos.infrastructure.projects_repository import ProjectsRepository
 from todos.routes import project
 from todos.routes.dependencies import get_session
 
@@ -20,4 +20,4 @@ router.include_router(project.router)
     tags=["projects"],
 )
 def projects_endpoint(session: Session = Depends(get_session)):
-    return session.query(Project).all()
+    return ProjectsRepository(session).all()

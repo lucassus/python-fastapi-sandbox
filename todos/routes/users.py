@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
-from todos.domain.entities import User
 from todos.domain.services import build_user_with_example_project
+from todos.infrastructure.users_repository import UsersRepository
 from todos.routes.dependencies import get_current_time, get_session
 from todos.routes.errors import UserNotFoundError
 
@@ -35,7 +35,7 @@ def user_registration_endpoint(
     name="Returns the list of projects",
 )
 def user_endpoint(id: int, session: Session = Depends(get_session)):
-    user = session.query(User).get(id)
+    user = UsersRepository(session).get(id)
 
     if user is None:
         raise UserNotFoundError(id)

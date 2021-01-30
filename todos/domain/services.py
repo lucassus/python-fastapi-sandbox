@@ -3,6 +3,7 @@ from datetime import date
 from todos.domain.entities import Project, User
 
 
+# TODO: It's not a service!
 def build_user_with_example_project(*, email: str, password: str, now: date) -> User:
     user = User(email=email, password=password)
 
