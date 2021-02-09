@@ -50,7 +50,7 @@ def task_complete_endpoint(
     session: Session = Depends(get_session),
     now: date = Depends(get_current_time),
 ):
-    task.completed_at = now
+    task.complete(now)
     session.commit()
 
     return task
@@ -65,7 +65,7 @@ def task_incomplete_endpoint(
     task: Task = Depends(get_task),
     session: Session = Depends(get_session),
 ):
-    task.completed_at = None
+    task.incomplete()
     session.commit()
 
     return task
