@@ -4,9 +4,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
-from todos.domain.entities import User
-from todos.domain.services import build_user_with_example_project
-from todos.routes.dependencies import get_current_time, get_session
+from todos.models import User
+from todos.routes.dependencies import get_session
 from todos.routes.errors import UserNotFoundError
 
 router = APIRouter(prefix="/users")
@@ -16,12 +15,10 @@ router = APIRouter(prefix="/users")
 def user_registration_endpoint(
     data: schemas.RegisterUser,
     session: Session = Depends(get_session),
-    now: date = Depends(get_current_time),
 ):
-    user = build_user_with_example_project(
+    user = User(
         email=data.email,
         password=data.password,
-        now=now,
     )
     session.add(user)
     session.commit()
@@ -35,6 +32,7 @@ def user_registration_endpoint(
     name="Returns the list of projects",
 )
 def user_endpoint(id: int, session: Session = Depends(get_session)):
+    # TODO: Dry it
     user = session.query(User).get(id)
 
     if user is None:

@@ -1,24 +1,20 @@
 from datetime import date
 from typing import Optional
 
-from todos.domain.entities import Project, Task
+from todos.models import Task, User
 
 
-def build_project(
+def build_user(
     *,
     id: Optional[int] = None,
-    name: str = "Test project",
-    max_incomplete_tasks_number: Optional[int] = None,
-) -> Project:
-    project = Project(
-        name=name,
-        max_incomplete_tasks_number=max_incomplete_tasks_number,
-    )
+    email: str = "test@email.com",
+) -> User:
+    user = User(email=email, password="password")
 
     if id is not None:
-        project.id = id
+        user.id = id
 
-    return project
+    return user
 
 
 def build_task(

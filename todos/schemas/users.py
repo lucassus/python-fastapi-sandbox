@@ -2,8 +2,8 @@ from typing import List
 
 from pydantic import Field
 
+from todos.schemas import Task
 from todos.schemas.base_schema import BaseSchema
-from todos.schemas.projects import Project
 
 
 class RegisterUser(BaseSchema):
@@ -16,4 +16,4 @@ class User(BaseSchema):
     email: str
     password: str
 
-    projects: List[Project]
+    tasks: List[Task]

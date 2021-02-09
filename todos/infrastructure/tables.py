@@ -2,7 +2,7 @@ from sqlalchemy.orm import mapper, relationship
 from sqlalchemy.sql.schema import Column, ForeignKey, MetaData, Table
 from sqlalchemy.sql.sqltypes import Date, Integer, String
 
-from todos.domain.entities import Project, Task, User
+from todos.models import Task, User
 
 metadata = MetaData()
 
@@ -14,20 +14,11 @@ users_table = Table(
     Column("password", String(255)),
 )
 
-projects_table = Table(
-    "projects",
-    metadata,
-    Column("id", Integer, primary_key=True, autoincrement=True),
-    Column("user_id", Integer, ForeignKey("users.id")),
-    Column("name", String(255)),
-    Column("max_incomplete_tasks_number", Integer),
-)
-
 tasks_table = Table(
     "tasks",
     metadata,
     Column("id", Integer, primary_key=True, autoincrement=True),
-    Column("project_id", Integer, ForeignKey("projects.id")),
+    Column("user_id", Integer, ForeignKey(users_table.c.id)),
     Column("name", String(255)),
     Column("completed_at", Date, nullable=True),
 )
@@ -45,15 +36,7 @@ def start_mappers():
     mapper(
         User,
         users_table,
-        properties={"projects": relationship(Project, order_by=projects_table.c.id)},
-    )
-
-    mapper(
-        Project,
-        projects_table,
-        properties={
-            "tasks": relationship(Task, order_by=tasks_table.c.id),
-        },
+        properties={"tasks": relationship(Task, order_by=tasks_table.c.id)},
     )
 
     mapper(Task, tasks_table)

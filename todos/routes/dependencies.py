@@ -1,11 +1,11 @@
 from datetime import date, datetime
 
-from fastapi import Path, Depends
+from fastapi import Depends, Path
 from sqlalchemy.orm.session import Session
 
-from todos.domain.entities import Project, Task
 from todos.infrastructure.session import session_factory
-from todos.routes.errors import ProjectNotFoundError, TaskNotFoundError
+from todos.models import Task
+from todos.routes.errors import TaskNotFoundError
 
 
 def get_current_time() -> date:
@@ -21,25 +21,25 @@ def get_session():
         session.close()
 
 
-def get_project(
-    project_id: int = Path(..., description="The ID of the project", ge=1),
+def get_user(
+    user_id: int = Path(..., description="The ID of the user", ge=1),
     session: Session = Depends(get_session),
-) -> Project:
-    project = session.query(Project).get(project_id)
+):
+    user = session.query(Task).get(user_id)
 
-    if project is None:
-        raise ProjectNotFoundError(project_id)
+    if user is None:
+        raise TaskNotFoundError(user_id)
 
-    return project
+    return user
 
 
 def get_task(
-    id: int = Path(..., description="The ID of the task", ge=1),
+    task_id: int = Path(..., description="The ID of the task", ge=1),
     session: Session = Depends(get_session),
 ):
-    task = session.query(Task).get(id)
+    task = session.query(Task).get(task_id)
 
     if task is None:
-        raise TaskNotFoundError(id)
+        raise TaskNotFoundError(task_id)
 
     return task
