@@ -8,7 +8,12 @@ from app.routes.dependencies import get_session, get_user
 router = APIRouter(prefix="/users")
 
 
-@router.post("", response_model=schemas.User, name="Create user")
+@router.post(
+    "",
+    response_model=schemas.User,
+    name="Create user",
+    deprecated=True,
+)
 def user_registration_endpoint(
     data: schemas.RegisterUser,
     session: Session = Depends(get_session),
@@ -23,11 +28,11 @@ def user_registration_endpoint(
     return user
 
 
+# TODO: Add example with docstring
 @router.get(
     "/{user_id}",
     response_model=schemas.User,
     name="Return the user by ID",
-    deprecated=True,
 )
 def user_endpoint(user=Depends(get_user)):
     return user
