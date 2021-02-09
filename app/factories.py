@@ -1,7 +1,6 @@
-from datetime import date
 from typing import Optional
 
-from app.models import Task, User
+from app.models import User
 
 
 def build_user(
@@ -15,17 +14,3 @@ def build_user(
         user.id = id
 
     return user
-
-
-def build_task(
-    *,
-    id: Optional[int] = None,
-    name: str = "Test task",
-    completed_at: Optional[date] = None,
-) -> Task:
-    task = Task(name=name, completed_at=completed_at)
-
-    if id is not None:
-        task.id = id
-
-    return task
