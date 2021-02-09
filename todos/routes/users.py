@@ -27,6 +27,7 @@ def user_registration_endpoint(
     "/{user_id}",
     response_model=schemas.User,
     name="Return the user by ID",
+    deprecated=True,
 )
 def user_endpoint(user=Depends(get_user)):
     return user
