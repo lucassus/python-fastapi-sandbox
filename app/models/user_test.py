@@ -1,4 +1,4 @@
-from app.test_utils.factories import build_user
+from app.factories import build_user
 
 
 def test_add_task():
