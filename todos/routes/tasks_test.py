@@ -105,6 +105,20 @@ def test_tasks_endpoint(session, client):
     ]
 
 
+def test_task_endpoint_returns_404_when_task_not_found(session, client):
+    # Given
+    project = Project(name="Test")
+    session.add(project)
+    session.commit()
+
+    # When
+    response = client.get(f"/projects/{project.id}/tasks/123")
+
+    # Then
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Unable to find a task with id=123"}
+
+
 def test_task_endpoint_returns_task(session, client):
     # Given
     project = Project(name="Project One")
@@ -133,17 +147,3 @@ def test_task_endpoint_returns_404_when_project_not_found(session, client):
     # Then
     assert response.status_code == 404
     assert response.json() == {"detail": "Unable to find a project with id=123"}
-
-
-def test_task_endpoint_returns_404_when_task_not_found(session, client):
-    # Given
-    project = Project(name="Test")
-    session.add(project)
-    session.commit()
-
-    # When
-    response = client.get(f"/projects/{project.id}/tasks/123")
-
-    # Then
-    assert response.status_code == 404
-    assert response.json() == {"detail": "Unable to find a task with id=123"}

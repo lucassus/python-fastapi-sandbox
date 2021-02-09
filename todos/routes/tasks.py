@@ -6,13 +6,24 @@ from sqlalchemy.orm import Session
 
 from todos import schemas
 from todos.domain.entities import Project
-from todos.routes.dependencies import get_current_time, get_session
-from todos.routes.project.dependencies import get_project, get_task
+from todos.routes.dependencies import (
+    get_current_time,
+    get_project,
+    get_session,
+    get_task,
+)
 
-router = APIRouter(prefix="/tasks")
+router = APIRouter(
+    prefix="/projects/{project_id}/tasks",
+    dependencies=[Depends(get_project)],
+)
 
 
-@router.get("", response_model=List[schemas.Task], name="Returns list of tasks")
+@router.get(
+    "",
+    response_model=List[schemas.Task],
+    name="Returns list of project's tasks",
+)
 def tasks_endpoint(
     project: Project = Depends(get_project),
 ):
