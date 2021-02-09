@@ -28,7 +28,6 @@ def user_registration_endpoint(
     return user
 
 
-# TODO: Add example with docstring
 @router.get(
     "/{user_id}",
     response_model=schemas.User,

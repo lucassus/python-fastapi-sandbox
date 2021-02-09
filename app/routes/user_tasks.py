@@ -28,6 +28,11 @@ def task_create_endpoint(
     user: User = Depends(get_user),
     session: Session = Depends(get_session),
 ):
+    """
+    Create a new task
+    - **name**: a task name
+    """
+
     task = user.add_task(name=data.name)
     session.commit()
 
