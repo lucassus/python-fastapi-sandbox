@@ -5,9 +5,9 @@ from sqlalchemy.orm import Session
 from starlette.testclient import TestClient
 
 from app.config import settings
+from app.dependencies import get_session
 from app.infrastructure.tables import create_tables, drop_tables, start_mappers
 from app.routes import api_router
-from app.routes.dependencies import get_session
 
 start_mappers()
 

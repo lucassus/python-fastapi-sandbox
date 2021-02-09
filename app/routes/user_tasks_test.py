@@ -1,7 +1,7 @@
 from datetime import date, datetime
 
+from app.dependencies import get_current_time
 from app.factories import build_user
-from app.routes.dependencies import get_current_time
 
 
 def test_tasks_endpoint_creates_task(session, client):
