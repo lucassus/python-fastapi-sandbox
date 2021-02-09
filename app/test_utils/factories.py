@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional
 
-from todos.models import Task, User
+from app.models import Task, User
 
 
 def build_user(

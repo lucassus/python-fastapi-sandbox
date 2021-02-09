@@ -1,5 +1,5 @@
-from todos.infrastructure.tables import users_table
-from todos.models import User
+from app.infrastructure.tables import users_table
+from app.models import User
 
 
 def test_user_registration_endpoints(session, client):

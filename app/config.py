@@ -5,7 +5,7 @@ from pydantic import BaseSettings
 
 database_path = os.path.join(
     os.path.dirname(__file__),
-    "../todos.db" if "pytest" not in sys.modules else "../todos_test.db",
+    "../db/development.db" if "pytest" not in sys.modules else "../db/test.db",
 )
 
 

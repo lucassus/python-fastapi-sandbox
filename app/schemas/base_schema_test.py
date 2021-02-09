@@ -1,6 +1,6 @@
 import pytest
 
-from todos.schemas.base_schema import camelize
+from app.schemas.base_schema import camelize
 
 
 @pytest.mark.parametrize(

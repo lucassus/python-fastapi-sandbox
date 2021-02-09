@@ -4,9 +4,9 @@ from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from todos import schemas
-from todos.models import Task, User
-from todos.routes.dependencies import get_current_time, get_session, get_task, get_user
+from app import schemas
+from app.models import Task, User
+from app.routes.dependencies import get_current_time, get_session, get_task, get_user
 
 router = APIRouter(
     prefix="/users/{user_id}/tasks",

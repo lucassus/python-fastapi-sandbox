@@ -2,7 +2,7 @@ from sqlalchemy.orm import mapper, relationship
 from sqlalchemy.sql.schema import Column, ForeignKey, MetaData, Table
 from sqlalchemy.sql.sqltypes import Date, Integer, String
 
-from todos.models import Task, User
+from app.models import Task, User
 
 metadata = MetaData()
 

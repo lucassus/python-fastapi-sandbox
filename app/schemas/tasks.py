@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import Field
 
-from todos.schemas.base_schema import BaseSchema
+from app.schemas.base_schema import BaseSchema
 
 
 class CreateTask(BaseSchema):

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from todos.infrastructure.tables import start_mappers
-from todos.routes import api_router
+from app.infrastructure.tables import start_mappers
+from app.routes import api_router
 
 start_mappers()
 

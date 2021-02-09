@@ -4,7 +4,7 @@ from datetime import date
 import pytest
 from pydantic import ValidationError
 
-from todos.schemas.tasks import CreateTask, Task
+from app.schemas.tasks import CreateTask, Task
 
 
 class TestCreateTaskSchema:

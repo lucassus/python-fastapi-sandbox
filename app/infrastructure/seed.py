@@ -3,12 +3,12 @@ from datetime import date
 import typer
 from tabulate import tabulate
 
-from todos.infrastructure.session import engine
-from todos.infrastructure.tables import (
+from app.infrastructure.session import engine
+from app.infrastructure.tables import (
     create_tables,
     drop_tables,
-    projects_table,
     tasks_table,
+    users_table,
 )
 
 
@@ -20,8 +20,8 @@ def main(rebuild_db: bool = True):
     connection = engine.connect()
 
     connection.execute(
-        projects_table.insert(),
-        {"id": 1, "name": "Project One"},
+        users_table.insert(),
+        {"id": 1, "email": "user@email.com", "password": "password"},
     )
 
     connection.execute(
@@ -29,25 +29,25 @@ def main(rebuild_db: bool = True):
         [
             {
                 "id": 1,
-                "project_id": 1,
+                "user_id": 1,
                 "name": "Learn Python",
                 "completed_at": date(2021, 1, 6),
             },
             {
                 "id": 2,
-                "project_id": 1,
+                "user_id": 1,
                 "name": "Learn Domain Driven Design",
                 "completed_at": None,
             },
             {
                 "id": 3,
-                "project_id": 1,
+                "user_id": 1,
                 "name": "Do the shopping",
                 "completed_at": None,
             },
             {
                 "id": 4,
-                "project_id": 1,
+                "user_id": 1,
                 "name": "Clean the house",
                 "completed_at": None,
             },

@@ -2,8 +2,8 @@ from typing import List
 
 from pydantic import Field
 
-from todos.schemas import Task
-from todos.schemas.base_schema import BaseSchema
+from app.schemas import Task
+from app.schemas.base_schema import BaseSchema
 
 
 class RegisterUser(BaseSchema):

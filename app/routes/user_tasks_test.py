@@ -1,9 +1,7 @@
 from datetime import date, datetime
 
-from todos.routes.dependencies import get_current_time
-from todos.test_utils.factories import build_user
-
-# TODO: Rename todos to app
+from app.routes.dependencies import get_current_time
+from app.test_utils.factories import build_user
 
 
 def test_tasks_endpoint_creates_task(session, client):
