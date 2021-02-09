@@ -1,4 +1,3 @@
-from datetime import date
 from typing import List
 
 from fastapi import APIRouter, Depends
@@ -6,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app import schemas
 from app.models import Task, User
-from app.routes.dependencies import get_current_time, get_session, get_task, get_user
+from app.routes.dependencies import CompleteTaskService, get_session, get_task, get_user
 
 router = APIRouter(
     prefix="/users/{user_id}/tasks",
@@ -47,13 +46,9 @@ def task_endpoint(task=Depends(get_task)):
 )
 def task_complete_endpoint(
     task: Task = Depends(get_task),
-    session: Session = Depends(get_session),
-    now: date = Depends(get_current_time),
+    complete_task: CompleteTaskService = Depends(),
 ):
-    task.complete(now)
-    session.commit()
-
-    return task
+    return complete_task(task)
 
 
 @router.put(

@@ -43,3 +43,21 @@ def get_task(
         raise TaskNotFoundError(task_id)
 
     return task
+
+
+class CompleteTaskService:
+    def __init__(
+        self,
+        session: Session = Depends(get_session),
+        now: datetime = Depends(get_current_time),
+    ):
+        self._session = session
+        self._now = now
+
+    def __call__(self, task: Task):
+        task.complete(self._now)
+        self._session.commit()
+
+        # TODO: Do some more complex stuff here...
+
+        return task
