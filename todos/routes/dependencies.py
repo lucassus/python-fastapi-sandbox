@@ -4,8 +4,8 @@ from fastapi import Depends, Path
 from sqlalchemy.orm.session import Session
 
 from todos.infrastructure.session import session_factory
-from todos.models import Task
-from todos.routes.errors import TaskNotFoundError
+from todos.models import Task, User
+from todos.routes.errors import TaskNotFoundError, UserNotFoundError
 
 
 def get_current_time() -> date:
@@ -25,10 +25,10 @@ def get_user(
     user_id: int = Path(..., description="The ID of the user", ge=1),
     session: Session = Depends(get_session),
 ):
-    user = session.query(Task).get(user_id)
+    user = session.query(User).get(user_id)
 
     if user is None:
-        raise TaskNotFoundError(user_id)
+        raise UserNotFoundError(user_id)
 
     return user
 

@@ -14,11 +14,6 @@ class UserNotFoundError(EntityNotFoundError):
         super().__init__(detail=f"Unable to find a user with id={id}")
 
 
-class ProjectNotFoundError(EntityNotFoundError):
-    def __init__(self, id: int):
-        super().__init__(detail=f"Unable to find a project with id={id}")
-
-
 class TaskNotFoundError(EntityNotFoundError):
     def __init__(self, id: int):
         super().__init__(detail=f"Unable to find a task with id={id}")

@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from todos import schemas
-from todos.models import User
+from todos.models import Task, User
 from todos.routes.dependencies import get_current_time, get_session, get_task, get_user
 
 router = APIRouter(
@@ -42,16 +42,13 @@ def task_endpoint(task=Depends(get_task)):
     return task
 
 
-@router.put(
-    "/{task_id}/complete", response_model=schemas.Task, dependencies=[Depends(get_task)]
-)
+@router.put("/{task_id}/complete", response_model=schemas.Task)
 def task_complete_endpoint(
-    id: int,
-    user: User = Depends(get_user),
+    task: Task = Depends(get_task),
     session: Session = Depends(get_session),
     now: date = Depends(get_current_time),
 ):
-    task = user.complete_task(id, now=now)
+    task.completed_at = now
     session.commit()
 
     return task
@@ -63,11 +60,10 @@ def task_complete_endpoint(
     dependencies=[Depends(get_task)],
 )
 def task_incomplete_endpoint(
-    id: int,
-    user: User = Depends(get_user),
+    task: Task = Depends(get_task),
     session: Session = Depends(get_session),
 ):
-    task = user.incomplete_task(id)
+    task.completed_at = None
     session.commit()
 
     return task

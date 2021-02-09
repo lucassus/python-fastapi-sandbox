@@ -15,15 +15,15 @@ def test_user_registration_endpoints(session, client):
         "id": user.id,
         "email": user.email,
         "password": user.password,
-        "projects": [
-            {"id": 1, "name": "My first project"},
-        ],
+        "tasks": [],
     }
 
 
 def test_user_endpoint(session, client):
     # Given
     user = User(email="user@email.com", password="password")
+    user.add_task(name="First Task")
+    user.add_task(name="Second Task")
     session.add(user)
     session.commit()
 
@@ -36,7 +36,10 @@ def test_user_endpoint(session, client):
         "id": 1,
         "email": "user@email.com",
         "password": "password",
-        "projects": [],
+        "tasks": [
+            {"id": 1, "name": "First Task", "completedAt": None},
+            {"id": 2, "name": "Second Task", "completedAt": None},
+        ],
     }
 
 
