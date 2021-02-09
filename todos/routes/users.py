@@ -4,12 +4,11 @@ from sqlalchemy.orm import Session
 from todos import schemas
 from todos.models import User
 from todos.routes.dependencies import get_session, get_user
-from todos.routes.errors import UserNotFoundError
 
 router = APIRouter(prefix="/users")
 
 
-@router.post("", response_model=schemas.User)
+@router.post("", response_model=schemas.User, name="Create user")
 def user_registration_endpoint(
     data: schemas.RegisterUser,
     session: Session = Depends(get_session),
@@ -27,7 +26,7 @@ def user_registration_endpoint(
 @router.get(
     "/{user_id}",
     response_model=schemas.User,
-    name="Returns the list of projects",
+    name="Return the user by ID",
 )
 def user_endpoint(user=Depends(get_user)):
     return user

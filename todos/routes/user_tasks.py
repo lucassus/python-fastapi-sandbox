@@ -17,15 +17,13 @@ router = APIRouter(
 @router.get(
     "",
     response_model=List[schemas.Task],
-    name="Returns list of user's tasks",
+    name="Return list of user's tasks",
 )
-def tasks_endpoint(
-    user: User = Depends(get_user),
-):
+def tasks_endpoint(user: User = Depends(get_user)):
     return user.tasks
 
 
-@router.post("", response_model=schemas.Task)
+@router.post("", response_model=schemas.Task, name="Create a task")
 def task_create_endpoint(
     data: schemas.CreateTask,
     user: User = Depends(get_user),
@@ -37,12 +35,16 @@ def task_create_endpoint(
     return task
 
 
-@router.get("/{task_id}", response_model=schemas.Task)
+@router.get("/{task_id}", response_model=schemas.Task, name="Return a task by ID")
 def task_endpoint(task=Depends(get_task)):
     return task
 
 
-@router.put("/{task_id}/complete", response_model=schemas.Task)
+@router.put(
+    "/{task_id}/complete",
+    response_model=schemas.Task,
+    name="Complete the task",
+)
 def task_complete_endpoint(
     task: Task = Depends(get_task),
     session: Session = Depends(get_session),
@@ -57,7 +59,7 @@ def task_complete_endpoint(
 @router.put(
     "/{task_id}/incomplete",
     response_model=schemas.Task,
-    dependencies=[Depends(get_task)],
+    name="Incomplete the task",
 )
 def task_incomplete_endpoint(
     task: Task = Depends(get_task),
