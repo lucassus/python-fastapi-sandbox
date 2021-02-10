@@ -17,8 +17,11 @@ deps: deps-pre deps-compile deps-install
 
 install: deps-pre deps-install
 
+seed:
+	python -m app.infrastructure.seed
+
 server-dev:
-	uvicorn todos.app:app --reload
+	uvicorn app.main:app --reload
 
 # Linting
 
@@ -47,7 +50,7 @@ lint: check-types check-flake8 check-isort check-black
 # Testing
 
 test:
-	pytest todos
+	pytest app
 
 test-watch:
-	ptw todos
+	ptw app
