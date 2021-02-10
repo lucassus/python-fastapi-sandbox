@@ -14,9 +14,9 @@ class Task:
     def is_completed(self) -> bool:
         return self.completed_at is not None
 
-    def complete(self, now: date) -> None:
+    def complete(self, at: date) -> None:
         if not self.is_completed:
-            self.completed_at = now
+            self.completed_at = at
 
     def incomplete(self) -> None:
         if self.is_completed:

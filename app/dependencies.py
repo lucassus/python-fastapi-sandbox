@@ -55,7 +55,7 @@ class CompleteTaskService:
         self._now = now
 
     def __call__(self, task: Task):
-        task.complete(self._now)
+        task.complete(at=self._now)
         self._session.commit()
 
         # TODO: Do some more complex stuff here...
