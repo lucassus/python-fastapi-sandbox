@@ -1,4 +1,4 @@
-from app.infrastructure.tables import users_table
+from app.db.tables import users_table
 from app.models import User
 
 

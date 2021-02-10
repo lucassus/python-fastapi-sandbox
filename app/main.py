@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.infrastructure.tables import start_mappers
+from app.db.tables import start_mappers
 from app.routes import api_router
 
 start_mappers()

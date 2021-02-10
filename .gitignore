@@ -1,7 +1,7 @@
 .idea
 docs
 htmlcov
-db
+./db
 node_modules
 venv
 .coverage

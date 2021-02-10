@@ -3,8 +3,8 @@ from datetime import date, datetime
 from fastapi import Depends, Path
 from sqlalchemy.orm.session import Session
 
+from app.db.session import session_factory
 from app.errors import TaskNotFoundError, UserNotFoundError
-from app.infrastructure.session import session_factory
 from app.models import Task, User
 
 

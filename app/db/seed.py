@@ -3,13 +3,8 @@ from datetime import date
 import typer
 from tabulate import tabulate
 
-from app.infrastructure.session import engine
-from app.infrastructure.tables import (
-    create_tables,
-    drop_tables,
-    tasks_table,
-    users_table,
-)
+from app.db.session import engine
+from app.db.tables import create_tables, drop_tables, tasks_table, users_table
 
 
 def main(rebuild_db: bool = True):
